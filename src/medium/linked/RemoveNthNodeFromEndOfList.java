@@ -1,30 +1,35 @@
 package medium.linked;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * https://leetcode.com/problems/remove-nth-node-from-end-of-list/
- * Runtime 24.26% Memory 51.64%
+ * Runtime 100% Memory 41.70%
  */
 public class RemoveNthNodeFromEndOfList {
 
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        List<ListNode> list = new ArrayList<>();
-        while (head != null) {
-            list.add(head);
-            head = head.next;
+        ListNode prev = head;
+        int size = 0;
+        while (prev != null) {
+            size++;
+            prev = prev.next;
         }
 
-        if (list.size() != n) {
-            if (n != 1) {
-                list.get(list.size() - n - 1).next = list.get(list.size() - n + 1);
+        n = size - n;
+        if (n == 0) {
+            return head.next;
+        }
+
+        prev = head;
+        while (n > 0) {
+            n--;
+            if (n != 0) {
+                prev = prev.next;
             } else {
-                list.get(list.size() - n - 1).next = null;
+                prev.next = prev.next.next;
             }
         }
-        list.remove(list.size() - n);
-        return list.isEmpty() ? null : list.get(0);
+
+        return head;
     }
 
     public class ListNode {
